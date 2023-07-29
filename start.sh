@@ -76,7 +76,7 @@ restart_containers() {
 }
 
 # container_ids_list=$(restart_containers)
-# echo "Список ID контейнеров: ${container_ids_list[@]}"
+# echo "List of containers ids: ${container_ids_list[@]}"
 
 daily_routine() {
     check_and_kill_postgres
