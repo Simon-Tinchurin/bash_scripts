@@ -27,6 +27,35 @@ create_new_file() {
 
 }
 
+add_bookmark() {
+
+    read -p "Enter filename with bookmarks: " file
+    read -p "Enter the name of the book: " book_name
+    read -p "Enter page number: " page
+
+    # Using 'grep' for searching substring in file, '-i' for case-insensitive 
+    result=$(grep -in "$book_name" $file.txt)
+
+    if [[ -n "$result" ]]; then
+        # if there is book name in file, then return line number
+        line_number=$(echo "$result" | awk -F ':' '{print $1}')
+        echo "The book $book_name is in line $line_number"
+    else
+        # Если подстрока не найдена, выводим сообщение
+        echo "There is no book in this file"
+    fi
+
+    updated=$(date +"%d.%m.%y %H:%M")
+    # Writing new bookmark
+    echo "$book_name: page - $page, updated: $updated" >> $file.txt
+    # Writing updation date
+    sed -i '2s/.*/'"Update date: $updated"'/' $file.txt
+
+    echo "Bookmark added"
+}
+
+add_bookmark
+
 check_bookmarks_flie() {
     # Getting script directory
     SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
@@ -57,5 +86,5 @@ check_bookmarks_flie() {
     fi
 }
 
-check_bookmarks_flie
+# check_bookmarks_flie
 
